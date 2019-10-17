@@ -44,7 +44,15 @@ namespace CodeReadApp
                     else
                     {
                         string textDecrypt = aes.Decrypt(result.Text);
-                        DisplayAlert("Valor Obtenido", textDecrypt, "OK");
+
+                        if (aes.HasError())
+                        {
+                            DisplayAlert("Se produjo un error:", textDecrypt, "OK");
+                        }
+                        else
+                        {
+                            DisplayAlert("Valor Obtenido", textDecrypt, "OK");
+                        }
                     }
 
                 });

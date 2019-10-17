@@ -83,8 +83,8 @@ namespace Common.Controller
             }
             catch (Exception ex)
             {
-
-                return "Error: " + ex.Message;
+                this.error = ex.Message;
+                return texto;
             }
         }
     }
