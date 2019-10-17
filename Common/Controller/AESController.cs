@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Common.Controller
 {
     public class AESController
     {
-        private string password = "ho";// { get; set; } //todo
+        private static string password = ConfigurationManager.AppSettings["CryptoCode"];
         private readonly byte[] IV = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
         private const int BlockSize = 128;
 
