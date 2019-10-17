@@ -27,9 +27,16 @@ namespace CodeApp.Controllers
             try
             {
                 AESController aes = new AESController();
-                string textoEncriptado = aes.Encrypt(text);
-                var path = @"C:\Temp\qrcode.png";
 
+                if (aes.HasError())
+                    throw new Exception(aes.error);
+
+                string textoEncriptado = aes.Encrypt(text);
+
+                if(aes.HasError())
+                    throw new Exception(aes.error);
+
+                var path = @"C:\Temp\qrcode.png";
                 var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
                 var qrCode = qrEncoder.Encode(textoEncriptado);
 
@@ -64,6 +71,9 @@ namespace CodeApp.Controllers
         public string Decrypt(string text)
         {
             AESController aes = new AESController();
+            if (aes.HasError())
+                return aes.error;
+
             return aes.Decrypt(text);
         }
     }

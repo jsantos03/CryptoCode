@@ -36,9 +36,17 @@ namespace CodeReadApp
                 {
                     Navigation.PopAsync();
                     AESController aes = new AESController();
-                    string textDecrypt = aes.Decrypt(result.Text);
 
-                    DisplayAlert("Valor Obtenido", textDecrypt, "OK");
+                    if (aes.HasError())
+                    {
+                        DisplayAlert("Error: ", aes.error, "OK");
+                    }
+                    else
+                    {
+                        string textDecrypt = aes.Decrypt(result.Text);
+                        DisplayAlert("Valor Obtenido", textDecrypt, "OK");
+                    }
+
                 });
             };
 
