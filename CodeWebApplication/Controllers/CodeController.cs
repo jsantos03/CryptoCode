@@ -26,25 +26,35 @@ namespace CodeApp.Controllers
         [HttpGet]
         public HttpResponseMessage GetQr(string text)
         {
-            AESController aes = new AESController();
-            string textoEncriptado = aes.Encrypt(text);
-
-            var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
-            var qrCode = qrEncoder.Encode(textoEncriptado);
-
-            var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
-            using (var stream = new FileStream(@"C:\Temp\qrcode.png", FileMode.Create))
+            try
             {
-                renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, stream);
+                AESController aes = new AESController();
+                string textoEncriptado = aes.Encrypt(text);
+                var path = @"C:\Temp\qrcode.png";
+
+                var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
+                var qrCode = qrEncoder.Encode(textoEncriptado);
+
+                var renderer = new GraphicsRenderer(new FixedModuleSize(5, QuietZoneModules.Two), Brushes.Black, Brushes.White);
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    renderer.WriteToStream(qrCode.Matrix, ImageFormat.Png, stream);
+                }
+
+                var file = new FileStream(path, FileMode.Open, FileAccess.Read);
+
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
+                result.Content = new StreamContent(file);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
+                return result;
             }
-
-            var path = @"C:\Temp\qrcode.png";
-            var file = new FileStream(path, FileMode.Open, FileAccess.Read);
-
-            HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.OK);
-            result.Content = new StreamContent(file);
-            result.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpeg");
-            return result;
+            catch (Exception ex)
+            {
+                HttpResponseMessage result = new HttpResponseMessage(HttpStatusCode.BadRequest);
+                result.Content = new StringContent(ex.Message);
+                result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                return result;
+            }
         }
 
         /// <summary>

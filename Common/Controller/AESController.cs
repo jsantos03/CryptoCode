@@ -11,12 +11,17 @@ namespace Common.Controller
     {
         private static string password = ConfigurationManager.AppSettings["CryptoCode"];
         private readonly byte[] IV = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-        private const int BlockSize = 128;
+        private const int BlockSize = 128;       
+
+        public AESController()
+        {
+            if (string.IsNullOrEmpty(password))
+                throw new Exception("El password de Encriptación es nulo");
+        }
 
         public string Encrypt(string texto)
         {
-            if (string.IsNullOrEmpty(password))
-                return null;
+            texto = texto ?? "";
 
             byte[] bytes = Encoding.Unicode.GetBytes(texto);
             //Encrypt
@@ -40,8 +45,7 @@ namespace Common.Controller
 
         public string Decrypt(string texto)
         {
-            if (string.IsNullOrEmpty(password))
-                return null;
+            texto = texto ?? "";
 
             //Decrypt
             byte[] bytes = Convert.FromBase64String(texto);
