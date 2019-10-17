@@ -1,4 +1,5 @@
-﻿using Gma.QrCodeNet.Encoding;
+﻿using Common.Controller;
+using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using System;
 using System.Drawing;
