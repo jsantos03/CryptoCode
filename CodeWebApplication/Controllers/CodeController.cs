@@ -8,6 +8,7 @@ using System.IO;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Web;
 using System.Web.Http;
 
 namespace CodeApp.Controllers
@@ -17,7 +18,6 @@ namespace CodeApp.Controllers
         /// <summary>
         /// GET api/Code/GetQR?texto=hello
         /// Retonar el codigo QR encriptado
-        /// Debe existir la carpeta C:\Temp
         /// </summary>
         /// <param name="texto"></param>
         /// <returns>image/jpeg (QR Code)</returns>
@@ -36,7 +36,7 @@ namespace CodeApp.Controllers
                 if(aes.HasError())
                     throw new Exception(aes.error);
 
-                var path = @"C:\Temp\qrcode.png";
+                string path = HttpContext.Current.Server.MapPath("/qrcode.png");
                 var qrEncoder = new QrEncoder(ErrorCorrectionLevel.H);
                 var qrCode = qrEncoder.Encode(textoEncriptado);
 
