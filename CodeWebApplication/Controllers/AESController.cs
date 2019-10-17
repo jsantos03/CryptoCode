@@ -1,27 +1,24 @@
-﻿using System;
+﻿using Gma.QrCodeNet.Encoding;
+using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Web;
 
-namespace Common.Controller
+namespace CodeApp.Controllers
 {
     public class AESController
     {
-        private static string password = "CryptoCode";// ConfigurationManager.AppSettings["CryptoCode"];
+        private string password = "CryptoCode";// { get; set; } //todo
         private readonly byte[] IV = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
-        private const int BlockSize = 128;       
-
-        public AESController()
-        {
-            if (string.IsNullOrEmpty(password))
-                throw new Exception("El password de Encriptación es nulo");
-        }
+        private const int BlockSize = 128;
 
         public string Encrypt(string texto)
         {
-            texto = texto ?? "";
+            if (string.IsNullOrEmpty(password))
+                return null;
 
             byte[] bytes = Encoding.Unicode.GetBytes(texto);
             //Encrypt
@@ -45,7 +42,8 @@ namespace Common.Controller
 
         public string Decrypt(string texto)
         {
-            texto = texto ?? "";
+            if (string.IsNullOrEmpty(password))
+                return null;
 
             //Decrypt
             byte[] bytes = Convert.FromBase64String(texto);

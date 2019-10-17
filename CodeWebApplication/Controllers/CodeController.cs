@@ -1,12 +1,9 @@
-﻿using Common.Controller;
-using Gma.QrCodeNet.Encoding;
+﻿using Gma.QrCodeNet.Encoding;
 using Gma.QrCodeNet.Encoding.Windows.Render;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -18,7 +15,7 @@ namespace CodeApp.Controllers
     {
         /// <summary>
         /// GET api/Code/GetQR?texto=hello
-        /// Retonar el codigo QR encriptado 
+        /// Retonar el codigo QR encriptado
         /// Debe existir la carpeta C:\Temp
         /// </summary>
         /// <param name="texto"></param>
